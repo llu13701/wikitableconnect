@@ -23,9 +23,11 @@ out_csv='/Users/louisalu/Documents/wikiproject/output.csv'
 
 number_lines=len(readtopic['col1'])
 
-chucksize=5
+chucksize=500
 
 for i in range(1, number_lines, chucksize):
+    print (i, "out of", number_lines/chucksize)
+    
     readtopicchuck=pd.read_csv('topicoutput2.csv', sep='\t', header=None, 
                               usecols=[0,1], nrows=chucksize, skiprows=i)
     readtopicchuck.columns=['col1', 'col2']
