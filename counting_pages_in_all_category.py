@@ -1,24 +1,32 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sat Apr 20 19:57:29 2019
+Created on Tue Apr 23 11:24:36 2019
 
-@author: amit
+@author: louisalu
 """
+
 
 import os
 import pandas as pd
-import dask.dataframe as dd
 
 
 def main():
-    os.chdir('/Users/amit/Desktop/wikitableconnect')
+    #os.chdir('/Users/louisalu/Documents/wikiproject')
     
     # read into the all category: chuck only later
-    file_all_cat=pd.read_csv('title_cat_sample_10k.csv', sep='\\t', header=None, usecols=[2])
+    cat_file_name='title_cat_sample_10k.csv'
+    chucksize=50
     
-    # counting the category of the unqiue values
-    count_cat=pd.Series(file_all_cat.values.ravel()).dropna().value_counts()
+    results=pd.concat([chuck.apply(pd.Series.value_counts) for chuck in pd.read_csv(cat_file_name, error_bad_lines=False, usecols=[2], 
+                       sep='\\t', header=None, chunksize=chucksize)])
+    final_results=results.groupby(results.index).sum()
+    final_results.to_csv("outputcattest.csv", index=True, header=False, chunksize=chucksize)
+
+    
+
+if __name__=="__main__":
+    main()
 
 
 
