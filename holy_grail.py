@@ -1,5 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
+import numpy as np
 
 
 def extract_details_conv_on_block_number(block_info_ordered, pd_text, item_range=10):
